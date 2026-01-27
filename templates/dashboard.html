@@ -1,41 +1,44 @@
-
 <html>
-    <head>
-        <title>Dashboard</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
-        <style>
-            h1 { color: green;}
-        </style>
-    </head>
 
-    <body>
-        <header>
-            <nav>
-                <ul>
-                    <li><a href="/logout">Logout</a></li>
-                </ul>
-            </nav>
-        </header>
-        <h4>You are logged in as {{ username }}</h4>
-        <main class="blog-container">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <style>
+        h1 {
+            color: green;
+        }
+    </style>
+</head>
 
-            {% for post in posts %}
-                <article class="blog-card">
-                <h4>{{ post.title }}</h4>
-                <p class="excerpt">{{ post.excerpt}}</p>
+<body>
+    <header>
+        <h4 class="title">You are logged in as {{ username }}</h4>
+        <nav>
+            <ul>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <form action="/new" method="GET">
+            <button class="create-btn" type="submit">Create new Blog</button>
+    </form>
+    <main class="blog-container">
 
-                <div class="actions" style="justify-self:self-end;">
-                    <a class="btn" href="/view/{{ post.id }}">View</a>
-                    <a class="btn" href="/update/{{ post.id }}">Edit</a>
-                    <a class="btn danger" href="/delete/{{ post.id }}">Delete</a>
-                </div>
-            </article> 
-            {% endfor %}
-        </main>
-        <form action="/new" method="GET">
-            <button type="submit">Create new Blog</button>
-        </form>
-    </body>
+        {% for post in posts %}
+        <article class="blog-card">
+            <h4>{{ post.title }}</h4>
+            <p class="excerpt">{{ post.excerpt}}</p>
+
+            <div class="actions" style="justify-self:self-end;">
+                <a class="btn" href="/view/{{ post.id }}">View</a>
+                <a class="btn" href="/update/{{ post.id }}">Edit</a>
+                <a class="btn danger" href="/delete/{{ post.id }}">Delete</a>
+            </div>
+        </article>
+        {% endfor %}
+    </main>
+
+  
+</body>
+
 </html>
-
-
