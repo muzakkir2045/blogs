@@ -1,0 +1,19 @@
+
+
+<html>
+    <head>
+        <title>View</title>
+        <style>
+            .container {
+                display: block;
+                justify-self: center;
+            }
+        </style>
+    </head>
+    <body>
+        <main class="container">
+            <h1>{{ post.title }}</h1>
+            {{ post.content | safe }}
+        </main>
+    </body>
+</html>
