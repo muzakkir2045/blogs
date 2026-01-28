@@ -11,18 +11,15 @@
             <header>
                 <h4>Edit</h4>
             </header>
-            <div class="main">
-            <form method="POST">
+            <form class="edit_blog" method="POST">
                 <label for="blog_title">Blog title</label>
                 <input type="text" name="blog_title" value="{{post.title}}" required><br>
                 <label for="blog_text">Blog Content</label>
-                <textarea name="blog_text"
-                rows="15" cols="80"
-                placeholder="**bold**, *italic*, ## headings"
-                required>{{ post.content }}</textarea><br>
+                <textarea name="blog_text" rows="15" cols="80" placeholder="**bold**, *italic*, ## headings"
+                    required>{{ post.content }}</textarea><br>
                 <input type="submit" value="Update">
             </form>
-            </div>
+
         </div>
     </main>
 </body>

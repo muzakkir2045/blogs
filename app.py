@@ -1,12 +1,11 @@
 
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, abort
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import current_user
-from flask_login import LoginManager, UserMixin,login_user, logout_user, login_required, current_user
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import time
 import markdown
-
+import re
 
 app = Flask(__name__)
 
@@ -14,14 +13,12 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "supersecretkey"
 
-# Initialize database and login manager
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# User Model
 class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(250), unique = True, nullable = False)
@@ -38,7 +35,7 @@ class Post(db.Model):
 with app.app_context():
     db.create_all()
 
-# Load user for flask-login
+
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(int(user_id))
@@ -83,8 +80,13 @@ def login():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    # post = Post.query.all()
-    posts = Post.query.order_by(Post.id.desc()).all()
+    # posts = Post.query.order_by(user_id=current_user.id.desc()).all()
+    posts = (
+    Post.query
+    .filter_by(user_id=current_user.id)
+    .order_by(Post.date_time.desc())
+    .all()
+)
     preview_posts = []
 
     for post in posts:
@@ -115,12 +117,10 @@ def new_post():
         title = request.form.get('blog_title')
         text = request.form.get('blog_text')        
         if title != '' and text != '':
-            html_content = markdown.markdown(
-                text,extensions=["extra","fenced_code", "tables"]
-            )
+            
             post = Post(
                 title = title,
-                content = html_content,
+                content = text,
                 user_id = current_user.id,
                 date_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
             )  
@@ -131,23 +131,28 @@ def new_post():
     return render_template('new_blog.html')
 
 @app.route('/delete/<int:id>')
+@login_required
 def erase(id):
-    data = Post.query.get(id)
-    db.session.delete(data)
+
+    post = Post.query.get_or_404(id)
+
+    if post.user_id != current_user.id:
+        abort(403)
+
+    db.session.delete(post)
     db.session.commit()
     return redirect('/dashboard')
 
 @app.route('/update/<int:id>', methods = ['GET','POST'])
 @login_required
 def update(id):
-    post = Post.query.get(id)
+    post = Post.query.get_or_404(id)
+    if post.user_id != current_user.id:
+        abort(403)
     if request.method == 'POST':
         post.title = request.form.get("blog_title")
         post.content = request.form.get("blog_text")
-        html_content = markdown.markdown(
-                post.content,extensions=["extra","fenced_code", "tables"]
-            )
-        post.content = html_content
+       
         db.session.commit()
         return redirect("/dashboard")
 
@@ -159,10 +164,13 @@ def update(id):
 @login_required
 def view(id):
     post = Post.query.get(id)
-    return render_template('post.html', post = post)
+    rendered_content = markdown.markdown(
+        post.content,
+        extensions=["extra","fenced_code","tables"]
+    )
+    return render_template('post.html', post = post, rendered_content = rendered_content)
 
 
-import re
 
 def make_excerpt(html,length=90):
     text = re.sub('<[^<]+?>','',html)
@@ -179,3 +187,10 @@ https://chatgpt.com/s/t_6978e2b156308191897fbd3efbc70230
 
 if __name__ == "__main__":
     app.run(debug= True)
+
+
+
+"""
+Feature to add:
+Show all the posts from all the users to a logged in user
+"""
