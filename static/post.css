@@ -36,3 +36,17 @@ body {
 .blog-content p {
     margin-bottom: 20px;
 }
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #eaf6ff;
+    padding: 8px 12px;
+    border-radius: 5px; 
+}
+.back-link:hover {
+    background-color: #d0ebff;
+}
