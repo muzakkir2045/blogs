@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>Sign Up</title>
+        <style>
+            h1 {
+                color : green;
+                .error { color: red; }
+            }
+        </style>
+        <link rel="stylesheet" href="{{ url_for('static',filename='sign_up.css') }}">
+    </head>
+
+    <body>
+        <main class="form">
+        <h1>Create an account</h1>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form class="login" action="/register" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" name="username" required />
+            <label for="password">Password:</label>
+            <input type="password" name="password" required />
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="actions">
+            <p>Already have an Account?</p>
+            <a href="/login">Login</a>
+        </div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+<style>
+    h1 {
+        color: green;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<form action="/new" method="GET">
+    <button class="create-btn" type="submit">Create new Blog</button>
+</form>
+<main class="blog-container">
+
+    {% for post in posts %}
+    <article class="blog-card">
+        <h4>{{ post.title }}</h4>
+        <p class="excerpt">{{ post.excerpt}}</p>
+
+        <div class="actions" style="justify-self:self-end;">
+            <a class="btn" href="/view/{{ post.id }}">View</a>
+            <a class="btn" href="/update/{{ post.id }}">Edit</a>
+            <a class="btn danger" href="/delete/{{ post.id }}">Delete</a>
+        </div>
+    </article>
+    {% endfor %}
+</main>
+
+{% endblock content %}

@@ -1,0 +1,140 @@
+
+body{
+    background-color: #f4f6f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+header{
+    display: flex;
+    align-items: center;
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+header .title{
+    display: flex;
+}
+
+header nav ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+header nav ul li{
+    display: flex;
+    justify-content: right;
+}
+header nav ul li a{
+    text-decoration: none;
+    margin: 0 15px;
+    color: white;
+    font-weight: bold;
+}
+
+.blog-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill , minmax(300px,1fr));
+    gap: 24px;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.blog-card h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #2c3e50;
+}
+
+.blog-card {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 150px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+}
+
+.excerpt {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 10px 0 15px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.actions {
+    margin-top: auto;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+.btn {
+    text-decoration: none;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    color: #333;
+    background-color: #f9f9f9;
+}
+.btn:hover {
+    background-color: #eee;
+}
+
+.btn.danger {
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+
+.create-btn:hover {
+    background-color: lightblue;
+    color: darkblue;
+}
+
+.create-btn {
+    display: flex;
+    justify-self: flex-end;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    color: white;
+    background-color: #2c3e50;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .blog-container {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 20px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .blog-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+}
