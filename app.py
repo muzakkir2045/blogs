@@ -6,12 +6,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import time
 import markdown
 import re
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SECRET_KEY"] = "supersecretkey"
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+
 
 db = SQLAlchemy(app)
 
@@ -186,7 +191,7 @@ https://chatgpt.com/s/t_6978e2b156308191897fbd3efbc70230
 
 
 if __name__ == "__main__":
-    app.run(debug= True)
+    app.run()
 
 
 
