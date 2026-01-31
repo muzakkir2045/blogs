@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, url_for, redirect, abort
+from flask import Flask, render_template, request, url_for, redirect, abort, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,6 +8,7 @@ import markdown
 import re
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -20,6 +21,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
 )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 
 
 db = SQLAlchemy(app)
@@ -193,6 +195,9 @@ and updating the dashboard.html
 https://chatgpt.com/s/t_6978e2b156308191897fbd3efbc70230
 """
 
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
 
 if __name__ == "__main__":
     app.run()

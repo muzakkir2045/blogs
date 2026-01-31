@@ -1,23 +1,19 @@
 <html>
     <head>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sign Up</title>
-        <style>
-            h1 {
-                color : green;
-                .error { color: red; }
-            }
-        </style>
         <link rel="stylesheet" href="{{ url_for('static',filename='sign_up.css') }}">
     </head>
 
     <body>
         <main class="form">
-        <h1>Create an account</h1>
+        <h1 class="sign-up-header">Register</h1>
         {% if error %}
             <p class="error">{{ error }}</p>
         {% endif %}
 
-        <form class="login" action="/register" method="POST">
+        <form class="register" action="/register" method="POST">
             <label for="username">Username:</label>
             <input type="text" name="username" required />
             <label for="password">Password:</label>

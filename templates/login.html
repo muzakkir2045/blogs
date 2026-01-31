@@ -6,20 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="{{url_for('static', filename='login.css')}}">
-    <style>
-        h1 {
-            color: green;
-        }
-
-        .error {
-            color: red;
-        }
-    </style>
 </head>
 
 <body>
     <main class="form">
-        <h1>Login to your account</h1>
+        <h1 class="login-header">Login</h1>
 
         {% if error %}
         <p class="error">{{ error }}</p>

@@ -3,9 +3,24 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.error {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.login-header {
+    text-align: center;
+    color: steelblue;
+    margin-bottom: 20px;
 }
 .form {
     background-color: white;
+    width: 100%;
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
@@ -55,4 +70,34 @@ body {
 .actions a:hover {
     color: darkblue;
     text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .form {
+        margin: 10px;
+        padding: 15px;
+        max-width: none;
+    }
+    .login-header {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    .login input[type="text"],
+    .login input[type="password"] {
+        padding: 10px;
+        font-size: 16px;
+    }
+    .login button {
+        padding: 12px;
+        font-size: 16px;
+    }
+}
+@media (max-width: 768px) and (orientation: landscape) {
+    .form {
+        padding: 15px;
+        max-width: 90%;
+    }   
+    .login-header {
+        margin-bottom: 10px;
+    }
 }
