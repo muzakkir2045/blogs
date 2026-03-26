@@ -65,7 +65,6 @@ def register():
             return render_template("sign_up.html", error = "Username already taken!")
         
         hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
-
         new_user = Users(username = username, password = hashed_password)
         db.session.add(new_user)
         db.session.commit()
@@ -91,7 +90,6 @@ def login():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    # posts = Post.query.order_by(user_id=current_user.id.desc()).all()
     posts = (
     Post.query
     .filter_by(user_id=current_user.id)
@@ -170,7 +168,6 @@ def update(id):
 
     return render_template('/edit_blog.html', post=post)
 
-
 @app.route('/view/<int:id>')
 @login_required
 def view(id):
@@ -182,7 +179,6 @@ def view(id):
     return render_template('post.html', post = post, rendered_content = rendered_content)
 
 
-
 def make_excerpt(html,length=90):
     text = re.sub('<[^<]+?>','',html)
     text = ' '.join(text.split())
@@ -190,21 +186,9 @@ def make_excerpt(html,length=90):
         return text[:length] + "..."
     return text
 
-""" for the change : adding make_excerpt function
-and updating the dashboard.html
-https://chatgpt.com/s/t_6978e2b156308191897fbd3efbc70230
-"""
-
 @app.before_request
 def make_session_permanent():
     session.permanent = True
 
 if __name__ == "__main__":
     app.run()
-
-
-
-"""
-Feature to add:
-Show all the posts from all the users to a logged in user
-"""
